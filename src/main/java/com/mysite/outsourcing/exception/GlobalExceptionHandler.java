@@ -54,7 +54,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseStatusDto> BaseException(UnsupportedEncodingException ex, HttpServletRequest req) {
         ex.printStackTrace();
         log.error(ex.getMessage());
-        return baseException(req, ResponseCode.FAIL_ENCODING_TOKEN);
+        return baseException(req, ResponseCode.FAILED_ENCODING_TOKEN);
     }
 
     /**

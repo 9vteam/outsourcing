@@ -1,6 +1,7 @@
 package com.mysite.outsourcing.reviwe.entity;
 
 import com.mysite.outsourcing.order.entity.Order;
+import com.mysite.outsourcing.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +18,10 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user_id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")

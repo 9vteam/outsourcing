@@ -2,17 +2,18 @@ package com.mysite.outsourcing.store.entity;
 
 
 import com.mysite.outsourcing.enums.StoreState;
-import com.mysite.outsourcing.enums.UserState;
+import com.mysite.outsourcing.menu.entity.Menu;
+import com.mysite.outsourcing.order.entity.Order;
 import com.mysite.outsourcing.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Builder
@@ -39,8 +40,18 @@ public class Store {
     private LocalDateTime closedAt;
 
     @Column
-    private Integer minAmount;
+    private Integer minimumAmount;
 
     @Enumerated(value = EnumType.STRING)
     private StoreState state;
+
+    @OneToMany(mappedBy = "store",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true)
+    private List<Menu> menus = new ArrayList<>();
+
+    @OneToMany(mappedBy = "store",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true)
+    private List<Order> orders = new ArrayList<>();
 }

@@ -2,12 +2,16 @@ package com.mysite.outsourcing.user.entity;
 
 import com.mysite.outsourcing.common.entity.Timestamped;
 import com.mysite.outsourcing.enums.AuthType;
-import com.mysite.outsourcing.enums.UserState;
+import com.mysite.outsourcing.store.entity.Store;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 회원 정보를 담는 Entity 클래스
@@ -35,8 +39,13 @@ public class User extends Timestamped {
     private String nickname;
 
     @Enumerated(value = EnumType.STRING)
-    private AuthType auth;
+    private AuthType type;
 
-    @Enumerated(value = EnumType.STRING)
-    private UserState state;
+    @Column(updatable = false)
+    private LocalDateTime deletedAt;
+
+    @OneToMany(mappedBy = "user",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true)
+    private List<Store> stories = new ArrayList<>();
 }
